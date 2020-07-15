@@ -1,26 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+import { BrowserRouter as Router, Link, Switch, Route } from 'react-router-dom';
+import MapEditorCyto from './components/MapEditorCyto';
+import ResonanceAudioSandbox from './components/ResonanceAudioSandbox';
 
-function App() {
+const Wrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+const Button = styled.div`
+  cursor: pointer;
+`;
+const CyWrapper = styled.div`
+  height: 500px;
+`;
+const App: React.FC = (props) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Wrapper>
+        <h1>CytoScape Demo</h1>
+        <Link to='/maps'>Map Editor</Link>
+        <Link to='/audio'>resonance-audio</Link>
+
+        <Switch>
+          <Route exact path='/maps' render={(props) => <MapEditorCyto />} />
+          <Route
+            exact
+            path='/audio'
+            render={(props) => <ResonanceAudioSandbox />}
+          />
+        </Switch>
+      </Wrapper>
+    </Router>
   );
-}
+};
 
 export default App;
