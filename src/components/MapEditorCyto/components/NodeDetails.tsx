@@ -27,7 +27,6 @@ const NodeDetails: React.FC<MapNodeDetailsProps> = (props) => {
     if (e.target.type === 'number') value = parseInt(e.target.value);
     let update = { ...data, [e.target.name]: value };
     setDataAndScratch(node, update);
-    setData(update);
   };
   console.log(position);
 

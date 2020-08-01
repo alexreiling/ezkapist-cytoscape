@@ -2,16 +2,6 @@ import { Core, NodeSingular, EventObject, Position } from 'cytoscape';
 import { getDataAndScratch } from '../../Simulation/traverser';
 import { useState, useEffect, useCallback } from 'react';
 
-export const initFromLocalStorage = (cy: Core) => {
-  try {
-    let data = localStorage.getItem('graph') as string;
-    cy.add(JSON.parse(data));
-    cy.$(':selected').unselect();
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 export function useNodeDataAndScratch(node: NodeSingular) {
   const { data: initData, scratch: initScratch } = getDataAndScratch(node);
   const [data, setData] = useState(initData);

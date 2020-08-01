@@ -1,0 +1,32 @@
+interface for nodes:
+
+on init cytoscape:
+- foreach node init controller
+ - dictionary: node type => controller
+
+controller handles:
+- creation of Cytoscape node (factory? constructor?)
+- addition (with optional subtype, e.g. param, response, prompt etc.), deletion of subnodes
+- instantiation of audio nodes
+- connection of audio nodes 
+- play, pause, setParams
+- HANDLE Function
+
+AudioNode structure:
+- Each AudioNode is represented by 1 AudioNodeParentController, 1 AudioNodeChannelController for each input/output and 1 parameter connector
+- each input/output needs a data prop specifying 
+audioNode process:
+- set AudioContext on core scratch (context created externally)
+- consider: creating new AudioContext if non is provided?
+- instantiate all audioNodes AudioNodeParent
+
+controller gets stored in scratch as "ezkapist-node-controller"
+
+handle audioContext and AudioNode instantiation and connection
+run flow with and without instantiated audioContext 
+
+nodes in audio graph get prefixed with audio-
+nodes in flow graph get prefixed with flow
+
+store audioctx in cy, reference it in scratch in nodes,
+check if nulling audioContext in cy null audio in nodes

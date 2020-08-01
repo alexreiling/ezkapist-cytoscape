@@ -6,6 +6,7 @@ import {
   Position,
 } from 'cytoscape';
 import { defaultMapNode } from './config';
+import { getViewportCenter } from '../../cytoscapeHelpers';
 import {
   TraverserState,
   handleArrivalAt,
@@ -23,12 +24,7 @@ function deleteElement(eles: Collection) {
   if (window.confirm('Do you want to remove the element(s)?')) eles.remove();
 }
 const createNode = (cy: Core, position?: Position) => {
-  const { x1, y1, w, h } = cy.extent();
-  const initPos = {
-    x: x1 + w / 2,
-    y: y1 + h / 2,
-    ...position,
-  };
+  const initPos = position || getViewportCenter(cy);
   const model = defaultMapNode(initPos);
   cy.add(model);
 };

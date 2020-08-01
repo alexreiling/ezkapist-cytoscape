@@ -34,8 +34,9 @@ export const initSim = (cy: Core) => {
 };
 export const cleanUpSim = (cy: Core) => {
   MainLoop.stop();
-  const { audioContext } = cy.scratch('ezkapist-audio') as CoreAudioScratch;
-  audioContext.suspend();
+  const { audioContext } = (cy.scratch('ezkapist-audio') ||
+    {}) as CoreAudioScratch;
+  audioContext?.suspend();
 };
 export const startSim = (cy: Core) => {
   cy.$('.audio-source').forEach((node) => {

@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProps> = (props) => {
       nodes: cy.nodes('.static, .traverser').jsons(),
       edges: cy.edges().jsons(),
     };
-    localStorage.setItem('graph', JSON.stringify(graph));
+    localStorage.setItem('map', JSON.stringify(graph));
   };
   const handleStart = () => {
     initSim(cy);

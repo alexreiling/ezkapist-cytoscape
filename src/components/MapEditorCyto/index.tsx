@@ -4,7 +4,6 @@ import { defaultStyle } from './config';
 import Header from './components/Header';
 import { Main, Sidebar, Wrapper } from './components/MapEditorCyto.style';
 import { addGlobalListeners, addGlobalPlugins } from './handlers';
-import { initFromLocalStorage } from './util';
 import TraverserDetails from './components/TraverserDetails';
 import NodeDetails from './components/NodeDetails';
 
@@ -20,6 +19,7 @@ import edgehandles from 'cytoscape-edgehandles';
 //@ts-ignore
 import cxtmenu from 'cytoscape-cxtmenu';
 import { extendCytoscapeWithTraverser } from '../../Simulation/traverser';
+import { initFromLocalStorage } from '../../cytoscapeHelpers';
 
 cytoscape.use(edgehandles);
 cytoscape.use(cxtmenu);
@@ -51,7 +51,7 @@ const MapEditorCyto: React.FC<MapEditorCytoProps> = (props) => {
     cy = addGlobalPlugins(cy);
     extendCytoscapeWithTraverser(cy);
 
-    initFromLocalStorage(cy);
+    initFromLocalStorage(cy, 'map');
     cyRef.current = cy;
     setInitialized(true);
     return () => {};
