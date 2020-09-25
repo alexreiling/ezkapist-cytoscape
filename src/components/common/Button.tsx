@@ -1,4 +1,4 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes, ButtonHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -6,7 +6,7 @@ const Wrapper = styled.div`
   padding: 8px 12px;
 `;
 
-type ButtonProps = HTMLAttributes<HTMLDivElement> & {};
+type ButtonProps = ButtonHTMLAttributes<HTMLDivElement> & {};
 
 const Button: React.FC<ButtonProps> = (props) => {
   const { children, ...rest } = props;

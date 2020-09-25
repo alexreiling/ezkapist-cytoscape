@@ -6,7 +6,8 @@ export function handleInputChange<T>(
 ) {
   return (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     let value: any = e.target.value;
-    if (e.target.type === 'number') value = parseInt(e.target.value);
+    if (e.target.type === 'number')
+      value = value ? parseInt(e.target.value) : undefined;
     let update = { ...state, [e.target.name]: value };
     setState(update);
   };

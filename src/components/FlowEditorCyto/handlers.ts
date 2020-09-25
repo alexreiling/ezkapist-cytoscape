@@ -3,7 +3,7 @@ import { Core } from 'cytoscape';
 
 export function addGlobalListeners(cy: Core) {
   cy.addListener('tapstart', (e) => {
-    e.cy.$('.eh-handle').remove();
+    // e.cy.$('.eh-handle').remove();
   }).addListener('dropcreatenode', (e, params) => {
     if (!params || !params.nodeType) return;
     const { x, y } = cy.container()!.getBoundingClientRect();

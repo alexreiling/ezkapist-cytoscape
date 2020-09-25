@@ -17,6 +17,12 @@ const initAudioNodes = (cy: Core) => {
   });
 };
 const setAudioContext = (cy: Core, audioContext: AudioContext) => {};
+export const setInputHandler = (
+  cy: Core,
+  handler: (node: NodeSingular) => Promise<string | undefined>
+) => {
+  cy.scratch(SCRATCH.inputHandler, handler);
+};
 const initNodeController = (node: NodeSingular) => {
   const nodeType = node.data(DATA._nodeType);
   // TODO: call NodeController constructor based on node type

@@ -10,6 +10,8 @@ export const defaultData = (
     _isAudioTarget: type === 'audioIn',
     _isFlowSource: type === 'flowOut',
     _isFlowTarget: type === 'flowIn',
+    _isSetParamSource: false,
+    _isSetParamTarget: false,
     _isFallback: false,
   };
 };

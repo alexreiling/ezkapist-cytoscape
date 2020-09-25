@@ -1,0 +1,32 @@
+  // const [selected, setSelected] = useState<{
+  //   node: TreeNode<ExplorerItemModel>
+  //   groupIndex: number
+  // }>()
+  // const handleSelect = (
+  //   e: React.MouseEvent<HTMLDivElement>,
+  //   node: TreeNode,
+  //   groupIndex: number
+  // ) => {
+  //   setSelected({
+  //     node,
+  //     groupIndex,
+  //   })
+  //   if (onClick) onClick(e)
+  //   if (onSelect) onSelect(node, e)
+  // }
+  // const handleCreate = () => {
+  //   if (!selected) return
+  //   const {
+  //     node: {
+  //       children,
+  //       parent,
+  //       data: { isContainer, id },
+  //     },
+  //   } = selected
+  //   const parentId = isContainer || !!children.length ? id : parent?.data?.id
+  //   if (onCreate) onCreate({ label: 'Unbenannt' }, parentId)
+  // }
+  // let root = buildTree<ExplorerItemModel>([])
+  // groups.forEach((group) =>
+  //   root.children.push(buildTree(group.items, { label: group.label }))
+  // )

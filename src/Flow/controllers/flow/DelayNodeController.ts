@@ -1,6 +1,6 @@
 import { Core, NodeCollection } from 'cytoscape';
 import { FlowNodeController } from '../NodeController';
-type DelayNodeData = {
+export type DelayNodeData = {
   delay: number;
 };
 class DelayNodeController extends FlowNodeController<DelayNodeData> {
@@ -9,7 +9,7 @@ class DelayNodeController extends FlowNodeController<DelayNodeData> {
       const { delay } = this.flowData;
       setTimeout(() => {
         return resolve(this.outgoers);
-      }, 4000 || delay);
+      }, delay || 0);
     });
   };
   postInitializationHook = () => {
@@ -17,6 +17,7 @@ class DelayNodeController extends FlowNodeController<DelayNodeData> {
       _isFlowSource: true,
       _isFlowTarget: true,
     });
+    this.flowData = { delay: 1000 };
   };
 }
 export default DelayNodeController;

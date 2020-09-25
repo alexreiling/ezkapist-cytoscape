@@ -1,6 +1,9 @@
 import { NodeSingular, NodeCollection } from 'cytoscape';
 import { DATA, CLASSNAMES, SCRATCH, NodeData } from '../config';
 import { defaultData } from './util';
+export type BaseData = {
+  name?: string;
+};
 class NodeController {
   protected _node: NodeSingular;
   constructor(node: NodeSingular) {

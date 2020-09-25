@@ -22,3 +22,9 @@ export interface NodeMap {
 }
 
 export interface MapTraverser {}
+
+export interface Asset {
+  id: string;
+  label?: string;
+  parentId?: string;
+}

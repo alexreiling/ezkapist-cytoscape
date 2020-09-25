@@ -3,6 +3,7 @@ import DelayNodeController from './controllers/flow/DelayNodeController';
 import StartNodeController from './controllers/flow/StartNodeController';
 import InputNodeController from './controllers/flow/InputNodeController';
 import OutputNodeController from './controllers/flow/OutputNodeController';
+import ParameterNodeController from './controllers/flow/ParameterNodeController';
 
 type KeysEnum<T> = { [P in keyof Required<T>]: P };
 
@@ -11,7 +12,9 @@ export const SCRATCH = {
   edgehandles: {
     flow: '_flowEdgehandles',
     audio: '_audioEdgehandles',
+    params: '_paramsEdgehandles',
   },
+  inputHandler: '_inputHandler',
 };
 export type NodeData = {
   _nodeType: string;
@@ -23,8 +26,9 @@ export type NodeData = {
   _isAudioTarget: boolean;
   _isAudioSource: boolean;
   _isFallback?: boolean;
+  _isSetParamTarget: boolean;
+  _isSetParamSource: boolean;
 };
-
 export const DATA: KeysEnum<NodeData> = {
   _nodeType: '_nodeType',
   _audioData: '_audioData',
@@ -35,9 +39,20 @@ export const DATA: KeysEnum<NodeData> = {
   _isAudioTarget: '_isAudioTarget',
   _isAudioSource: '_isAudioSource',
   _isFallback: '_isFallback',
+  _isSetParamTarget: '_isSetParamTarget',
+  _isSetParamSource: '_isSetParamSource',
 };
+export type EdgeType = 'flow' | 'audio' | 'param';
+export type EdgeData = {
+  _edgeType: EdgeType;
+};
+export const EDGE_DATA: KeysEnum<EdgeData> = {
+  _edgeType: '_edgeType',
+};
+
 export const CLASSNAMES = {
   handled: 'handled',
+  validTarget: 'valid-target',
   flow: {
     node: 'flow-node',
     defaultOutGate: 'default-out',
@@ -46,6 +61,10 @@ export const CLASSNAMES = {
     node: 'audio-node',
     input: 'audio-node-input',
     output: 'audio-node-output',
+  },
+  params: {
+    edge: 'param-edge',
+    edgeHandle: 'param-edgehandle',
   },
 };
 interface NodeDefinition {
@@ -78,5 +97,9 @@ export const SUPPORTED: NodeDefinition[] = [
   {
     type: 'output',
     Controller: OutputNodeController,
+  },
+  {
+    type: 'set-param',
+    Controller: ParameterNodeController,
   },
 ];
