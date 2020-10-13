@@ -5,7 +5,10 @@ import { Icons } from './svg';
 import { buildTree } from './algo';
 import { ExplorerOptions, Item, TreeNode } from './types';
 import { usePopper } from 'react-popper';
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const Header = styled.div`
   display: flex;
@@ -117,12 +120,15 @@ const ExplorerReact: React.FC<
         </div>
         {/* <Toolbar>{onCreate && <AddFileIcon onClick={handleCreate} />}</Toolbar> */}
       </Header>
-      <div className={'list' + (collapsed ? ' collapsed' : '')}>
+      <div
+        className={'list' + (collapsed ? ' collapsed' : '')}
+        style={{ overflow: 'auto' }}
+      >
         {root.children.map((child, index) => {
           return (
             <ExplorerItem
               node={child}
-              level={0}
+              level={1}
               options={config}
               onUserFocus={handleFocus}
               onRightClick={handleRightClick}
@@ -134,5 +140,4 @@ const ExplorerReact: React.FC<
     </Wrapper>
   );
 };
-
 export default ExplorerReact;

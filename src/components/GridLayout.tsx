@@ -1,8 +1,7 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
-const GridLayout = styled.div`
+const GridLayout = styled.div<{ debug?: boolean }>`
   display: grid;
-  border: 1px solid red;
   grid-template-areas:
     'menu sidebar main'
     'menu sidebar sub';
@@ -11,12 +10,10 @@ const GridLayout = styled.div`
   width: 100%;
   height: 100%;
   #menu {
-    border: 1px solid limegreen;
     grid-area: menu;
     overflow: hidden;
   }
   #explorer {
-    border: 1px solid blue;
     grid-area: sidebar;
     overflow: auto;
     resize: horizontal;
@@ -25,17 +22,22 @@ const GridLayout = styled.div`
     max-width: 50vw;
   }
   #tabs {
-    border: 1px solid yellow;
     grid-area: main;
     overflow: auto;
     resize: vertical;
-
+    height: 50vh;
     min-height: 30vh;
     max-height: 90vh;
   }
   #footer {
-    border: 1px solid grey;
     grid-area: sub;
   }
+  ${(p) =>
+    p.debug &&
+    css`
+      > * {
+        border: 1px solid yellow;
+      }
+    `}
 `;
 export default GridLayout;

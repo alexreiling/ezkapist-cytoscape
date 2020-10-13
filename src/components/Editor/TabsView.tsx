@@ -1,13 +1,44 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { COLORS } from '../../config';
 import { Asset } from '../../types';
 import Tabs, { Tab } from '../Tabs';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  width: 100%;
+  background-color: ${COLORS.background.shades[1]};
+  color: ${COLORS.foreground.default};
+
+  .tab-head {
+    padding: 4px 8px;
+  }
+  .header {
+    background-color: ${COLORS.background.shades[0]};
+    color: ${COLORS.foreground.default};
+  }
+  .item {
+    &.focused {
+      background-color: ${COLORS.background.shades[1]};
+      color: ${COLORS.foreground.focused};
+    }
+  }
+  .body {
+  }
+  .tab {
+    padding: 16px;
+  }
+`;
 
 const TestViewWithState: React.FC<any> = (props) => {
   const [text, setText] = useState('');
-  return <input value={text} onChange={(e) => setText(e.target.value)} />;
+  return (
+    <input
+      style={{ height: '1000px' }}
+      value={text}
+      onChange={(e) => setText(e.target.value)}
+    />
+  );
 };
 
 type TabViewProps = {
@@ -30,7 +61,7 @@ const TabsView: React.FC<TabViewProps> = (props) => {
             return (
               <Tab
                 title={asset.id}
-                selected={asset.id === focused?.id}
+                focused={asset.id === focused?.id}
                 key={index}
               >
                 <TestViewWithState />
@@ -44,6 +75,7 @@ const TabsView: React.FC<TabViewProps> = (props) => {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
+            width: '100%',
           }}
         >
           keins ausgewählt

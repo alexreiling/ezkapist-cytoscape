@@ -53,6 +53,7 @@
     "@types/mainloop.js": "^1.0.5",
     "@types/react-router-dom": "^5.1.5",
     "@types/shortid": "0.0.29",
-    "@types/styled-components": "^5.1.0"
+    "@types/styled-components": "^5.1.0",
+    "node-sass": "^4.14.1"
   }
 }

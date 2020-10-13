@@ -1,11 +1,37 @@
 import React, { useRef, useState } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
+import { COLORS } from '../../config';
 import { Asset } from '../../types';
 import ExplorerReact from '../Explorer';
+import '../Explorer/styles.scss';
+
 import { Item } from '../Explorer/types';
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  height: 100%;
+  background-color: ${COLORS.background.shades[3]};
+  color: ${COLORS.foreground.default};
+  .selected {
+  }
+  .header {
+    background-color: ${COLORS.background.shades[2]};
+    box-shadow: 0px 3px 2px 0px rgba(34, 26, 15, 0.5);
+    padding: 4px 8px;
+  }
+  .item {
+    padding: 4px 8px;
+
+    &:hover {
+      background-color: ${COLORS.background.shades[4]};
+    }
+    &.focused {
+      background-color: ${COLORS.background.shades[6]};
+      color: ${COLORS.foreground.focused};
+    }
+  }
+`;
 const ContextMenu = styled.div`
   padding: 12px 18px;
   background: grey;

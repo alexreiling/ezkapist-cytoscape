@@ -53,3 +53,23 @@ export const style = [
     },
   },
 ];
+export const COLORS = {
+  background: {
+    shades: [
+      '#131510',
+      '#221A0F',
+      '#362E24',
+      '#362712',
+      '#523718',
+      '#70481E',
+      '#7C5021',
+    ],
+  },
+  foreground: {
+    default: '#C3CCA8',
+    focused: 'white',
+  },
+  lines: {
+    shades: ['#444444'],
+  },
+};
