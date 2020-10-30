@@ -40,6 +40,7 @@ export const Tabs: React.FC<TabsProps> = (props) => {
           />
         ))}
       </div>
+
       <div
         style={{ display: 'flex', overflow: 'auto', height: '100%' }}
         className='body'

@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { COLORS } from '../../config';
 import { Asset } from '../../types';
 import Tabs, { Tab } from '../Tabs';
+import '../Tabs/styles.scss';
 
 const Wrapper = styled.div`
   display: flex;
@@ -11,9 +12,24 @@ const Wrapper = styled.div`
   color: ${COLORS.foreground.default};
 
   .tab-head {
-    padding: 4px 8px;
+    padding: 0px 8px;
+    border-right: 1px solid #252526;
+    color: ${COLORS.foreground.inactive};
+
+    svg {
+      fill: ${COLORS.foreground.inactive};
+    }
+    &.focused {
+      background-color: ${COLORS.background.shades[1]};
+      color: ${COLORS.foreground.focused};
+      svg {
+        fill: ${COLORS.foreground.focused};
+      }
+    }
   }
   .header {
+    height: 32px;
+    line-height: 32px;
     background-color: ${COLORS.background.shades[0]};
     color: ${COLORS.foreground.default};
   }
@@ -74,7 +90,7 @@ const TabsView: React.FC<TabViewProps> = (props) => {
           style={{
             display: 'flex',
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'c enter',
             width: '100%',
           }}
         >

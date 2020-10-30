@@ -1,2 +1,22 @@
 .react-tabs {
 }
+.header {
+}
+.tab-head {
+  cursor: pointer;
+  display: flex;
+  flex: 1;
+  min-width: 100px;
+  max-width: 150px;
+  align-items: center;
+  svg {
+    margin-left: auto;
+    display: none;
+  }
+  &:hover,
+  &.focused {
+    svg {
+      display: inline-block;
+    }
+  }
+}

@@ -7,19 +7,40 @@ import ExplorerReact from '../Explorer';
 import '../Explorer/styles.scss';
 
 import { Item } from '../Explorer/types';
+import { assetIcons } from './Icons';
 
 const Wrapper = styled.div`
   display: flex;
+  flex-direction: column;
   height: 100%;
+  width: 100%;
   background-color: ${COLORS.background.shades[3]};
   color: ${COLORS.foreground.default};
+  svg {
+    fill: ${COLORS.foreground.default};
+    transition: all 0.3s ease-in-out;
+  }
+
   .selected {
   }
+  .react-explorer {
+    height: 100%;
+    overflow: auto;
+  }
   .header {
+    text-transform: uppercase;
+    font-weight: bold;
     background-color: ${COLORS.background.shades[2]};
     box-shadow: 0px 3px 2px 0px rgba(34, 26, 15, 0.5);
-    padding: 4px 8px;
+    font-family: 'Mohave-Bold';
   }
+  .list.collapsed {
+    visibility: hidden;
+    * {
+      visibility: hidden;
+    }
+  }
+
   .item {
     padding: 4px 8px;
 
@@ -29,8 +50,19 @@ const Wrapper = styled.div`
     &.focused {
       background-color: ${COLORS.background.shades[6]};
       color: ${COLORS.foreground.focused};
+      svg {
+        fill: ${COLORS.foreground.focused};
+      }
+    }
+    &.folder.collapsed svg {
+      transform: rotate(-90deg);
     }
   }
+`;
+const Header = styled.div`
+  height: 32px;
+  padding-left: 24px;
+  line-height: 32px;
 `;
 const ContextMenu = styled.div`
   padding: 12px 18px;
@@ -84,10 +116,19 @@ const ExplorerView: React.FC<ExplorerViewProps> = (props) => {
   };
   return (
     <Wrapper>
+      <Header>EXPLORER</Header>
       <ExplorerReact
-        items={items.map((item) => ({ ...item, payload: item }))}
+        items={items.map((item) => ({
+          ...item,
+          classNames: item.type && [item.type],
+          icon: item.type ? assetIcons[item.type] : assetIcons.undefined,
+          payload: item,
+          forceParentFeatures: item.type === 'folder',
+        }))}
         focusedId={focusedItem?.id}
-        onUserFocus={(item) => props.onFocus(item.payload)}
+        onUserFocus={(item) =>
+          item.payload?.type !== 'folder' && props.onFocus(item.payload!)
+        }
         onRightClick={handleRightClick}
         createAssetPopover={<div>Hi</div>}
       />

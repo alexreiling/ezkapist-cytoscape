@@ -1,20 +1,18 @@
 import React, { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import ExplorerItem from './ExplorerItem';
 import styled, { css } from 'styled-components';
-import { Icons } from './svg';
+import { Icons } from './Icons';
 import { buildTree } from './algo';
 import { ExplorerOptions, Item, TreeNode } from './types';
 import { usePopper } from 'react-popper';
+import Header from './Header';
+import { findByLabelText } from '@testing-library/react';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  overflow: auto;
 `;
 
-const Header = styled.div`
-  display: flex;
-  cursor: pointer;
-`;
-const GroupHeader = styled.div``;
 const Label = styled.div`
   flex: 1;
 `;
@@ -36,13 +34,13 @@ const Popper = styled.div<{ visible?: boolean }>`
       display: block;
     `}
 `;
-export type ExplorerProps<T = any> = {
+export type ExplorerProps<T> = HTMLAttributes<HTMLDivElement> & {
   label?: string;
-  items: Item[];
+  items: Item<T>[];
   focusedId?: string;
   options?: ExplorerOptions;
-  onUserFocus?: (item: Item, e: React.MouseEvent) => any;
-  onRightClick?: (item: Item, e: React.MouseEvent) => any;
+  onUserFocus?: (item: Item<T>, e: React.MouseEvent) => any;
+  onRightClick?: (item: Item<T>, e: React.MouseEvent) => any;
   createAssetPopover?: React.ReactElement;
   // onSelect?: (
   //   node: TreeNode<ExplorerItemModel<T>>,
@@ -58,10 +56,7 @@ export type ExplorerProps<T = any> = {
   // }[]
 };
 
-// TODO: use generic type definition on FC to allow proper return type for onSelect payload
-const ExplorerReact: React.FC<
-  HTMLAttributes<HTMLDivElement> & ExplorerProps<any>
-> = (props) => {
+const ExplorerReact = <T,>(props: ExplorerProps<T>) => {
   const {
     items,
     label,
@@ -101,28 +96,13 @@ const ExplorerReact: React.FC<
   const root = buildTree(items, focusedId);
   return (
     <Wrapper className={className + ' react-explorer'}>
-      <Header className='header'>
-        <div style={{ display: 'flex', width: '100%' }}>
-          <div className='label' onClick={() => setCollapsed(!collapsed)}>
-            {label || 'Untitled'}
-          </div>
-          <div style={{ marginLeft: 'auto' }}>
-            {/* <Popper
-              visible={popperVisible}
-              ref={popperElementRef}
-              style={styles.popper}
-              {...attributes.popper}
-            >
-              {createAssetPopover}
-              <div ref={setArrowElement} style={styles.arrow} />
-            </Popper> */}
-          </div>
-        </div>
-        {/* <Toolbar>{onCreate && <AddFileIcon onClick={handleCreate} />}</Toolbar> */}
-      </Header>
+      <Header collapsed={collapsed} setCollapsed={setCollapsed} label={label} />
       <div
         className={'list' + (collapsed ? ' collapsed' : '')}
-        style={{ overflow: 'auto' }}
+        style={{
+          overflow: 'auto',
+          height: '100%',
+        }}
       >
         {root.children.map((child, index) => {
           return (

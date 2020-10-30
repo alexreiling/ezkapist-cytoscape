@@ -1,4 +1,7 @@
 export const DATA_FIELD = 'ezkapist';
+export const paths = {
+  icons: '/images/',
+};
 export const style = [
   {
     selector: '.eh-handle',
@@ -66,8 +69,11 @@ export const COLORS = {
     ],
   },
   foreground: {
-    default: '#C3CCA8',
+    default: '#B0B0B0',
     focused: 'white',
+    active: 'white',
+    active1: '#FFD3BB',
+    inactive: '#6B6B6B',
   },
   lines: {
     shades: ['#444444'],

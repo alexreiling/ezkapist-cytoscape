@@ -1,54 +1,57 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { COLORS } from '../../config';
+import { COLORS, paths } from '../../config';
 import { styles } from '../../Flow/styles';
 import { Asset } from '../../types';
 import ExplorerReact from '../Explorer';
 import GridLayout from '../GridLayout';
 import Tabs, { Tab } from '../Tabs';
 import ExplorerView from './ExplorerView';
+import { BurgerIcon, ExplorerIcon, Logo, MediaAssetsIcon } from './Icons';
+import MainMenu from './MainMenu';
 import TabsView from './TabsView';
 
 type EditorProps = {};
-const MenuView = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 48px;
-  background-color: ${COLORS.background.shades[1]};
-  height: 100%;
-`;
+
 const ASSETS: Asset[] = [
   {
     id: '1',
     label: '1',
+    type: 'folder',
   },
   {
     id: '1.1',
     label: '1.1',
     parentId: '1',
+    type: 'world',
   },
   {
     id: '1.2',
     label: '1.2',
     parentId: '1',
+    type: 'map',
   },
   {
     id: '2',
     label: '2',
+    type: 'folder',
   },
   {
     id: '2.1',
     label: '2.1',
     parentId: '2',
+    type: 'flow',
   },
   {
     id: '3',
     label: '3 (leere Gruppe)',
+    type: 'folder',
   },
   {
     id: '4',
     label: '4 (top-level file)',
+    type: 'character',
   },
   {
     id: '5',
@@ -80,12 +83,7 @@ const Editor: React.FC<EditorProps> = (props) => {
   return (
     <GridLayout>
       <div id='menu'>
-        <MenuView>
-          <h1>CytoScape Demo</h1>
-          <Link to='/maps'>Map Editor</Link>
-          <Link to='/audio'>resonance-audio</Link>
-          <Link to='/flow'>Flow Editor</Link>
-        </MenuView>
+        <MainMenu />
       </div>
       <div id='explorer'>
         <ExplorerView

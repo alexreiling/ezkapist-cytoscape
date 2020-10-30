@@ -1,9 +1,11 @@
-.react-explorer > * {
+.react-explorer .item {
   cursor: pointer;
 }
 .react-explorer {
   .header {
-    text-transform: uppercase;
-    font-weight: bold;
+    padding: 4px 6px;
+  }
+  .label {
+    margin-left: 4px;
   }
 }

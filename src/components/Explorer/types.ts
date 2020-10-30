@@ -6,8 +6,10 @@ export interface Item<T = any> {
   id?: string;
   label?: string;
   parentId?: string;
-  isContainer?: boolean;
+  classNames?: string[];
   payload?: T;
+  icon?: React.ReactElement;
+  forceParentFeatures?: boolean;
 }
 
 // internal (tree) structures

@@ -1,5 +1,7 @@
 import clsx from 'clsx';
 import React, { HTMLAttributes, useState } from 'react';
+import { isTemplateExpression } from 'typescript';
+import { Icons } from './Icons';
 import { ExplorerOptions, TreeNode } from './types';
 type ExplorerItemProps = HTMLAttributes<HTMLDivElement> & {
   node: TreeNode;
@@ -10,28 +12,14 @@ type ExplorerItemProps = HTMLAttributes<HTMLDivElement> & {
   // handlers
   onUserFocus: (node: TreeNode, e: React.MouseEvent) => any;
   onRightClick: (node: TreeNode, e: React.MouseEvent) => any;
-  // onUserSelect?: (e: React.MouseEvent<HTMLDivElement>, node: TreeNode) => any
-  //classNameGroup?: string
 };
 
 const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
   const { node, selected, level, options, onUserFocus, onRightClick } = props;
   const [isCollapsed, setIsCollapsed] = useState(true);
-
-  // const handleSelect = (
-  //   e: React.MouseEvent<HTMLDivElement>,
-  //   childPayload?: any
-  // ) => {
-  //   e.stopPropagation()
-  //   if (!childPayload) {
-  //     setIsCollapsed(!isCollapsed)
-  //   }
-  //   if (onUserSelect) onUserSelect(e, childPayload || props.node)
-  // }
-
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    if (node.children.length) {
+    if (node.data.forceParentFeatures || node.children.length) {
       // is directory
       setIsCollapsed(!isCollapsed);
     }
@@ -41,18 +29,30 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
   return (
     <>
       <div
-        className={clsx('item', {
-          parent: !!node.children.length,
-          collapsed: isCollapsed,
-          focused: node.focused,
-        })}
+        className={clsx(
+          'item',
+          {
+            parent: node.data.forceParentFeatures || !!node.children.length,
+            collapsed: isCollapsed,
+            focused: node.focused,
+          },
+          ...(node.data.classNames || [])
+        )}
         onClick={handleClick}
         onContextMenu={(e) => onRightClick(node, e)}
-        style={{ display: 'flex' }}
+        style={{}}
       >
-        {/* {!!node.children.length && <div>{isCollapsed ? '+' : '-'}</div>} */}
-        <div className='label' style={{ marginLeft: indentation }}>
-          {node.data.label || 'Unnamed'}
+        <div
+          style={{
+            display: 'flex',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            alignItems: 'center',
+            marginLeft: indentation,
+          }}
+        >
+          {node.data.icon && node.data.icon}
+          <div className='label'>{node.data.label || 'Unnamed'}</div>
         </div>
       </div>
       {!isCollapsed &&
@@ -68,34 +68,7 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
             />
           );
         })}
-      {/* <div className={'children ' + isCollapsed ? 'collapsed' : ''}>
-      
-      </div> */}
     </>
-    // <div className={classNames.classNameGroup}>
-    //   <div
-    //     style={{ display: 'flex' }}
-    //     className={classNames.className}
-    //     onClick={handleSelect}
-    //   >
-    //     {(!!children?.length || isContainer) && (
-    //       <div>{isCollapsed ? '+' : '-'}</div>
-    //     )}
-    //     <div>{label}</div>
-    //   </div>
-    //   {!isCollapsed &&
-    //     children?.map((childNode, index) => {
-    //       return (
-    //         <ExplorerItem
-    //           key={index}
-    //           label={childNode.data.label || `[${index}]`}
-    //           node={childNode}
-    //           onSelect={handleSelect}
-    //           {...classNames}
-    //         />
-    //       )
-    //     })}
-    // </div>
   );
 };
 export default ExplorerItem;

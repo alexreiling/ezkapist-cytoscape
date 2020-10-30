@@ -22,9 +22,13 @@ export interface NodeMap {
 }
 
 export interface MapTraverser {}
-
+interface Folder {
+  id: string;
+  name?: string;
+}
 export interface Asset {
   id: string;
   label?: string;
   parentId?: string;
+  type?: 'world' | 'map' | 'character' | 'flow' | 'folder';
 }

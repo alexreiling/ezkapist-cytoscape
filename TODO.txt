@@ -30,3 +30,8 @@ nodes in flow graph get prefixed with flow
 
 store audioctx in cy, reference it in scratch in nodes,
 check if nulling audioContext in cy null audio in nodes
+
+
+- Local backend => Mirage?
+- Auth
+- 
