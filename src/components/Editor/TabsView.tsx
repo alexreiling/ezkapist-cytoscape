@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { COLORS } from '../../config';
+import useUIStore from '../../stores/useUIStore';
 import { Asset } from '../../types';
 import Tabs, { Tab } from '../Tabs';
 import '../Tabs/styles.scss';
@@ -57,21 +58,19 @@ const TestViewWithState: React.FC<any> = (props) => {
   );
 };
 
-type TabViewProps = {
-  assets: Asset[];
-  focused?: Asset;
-  onClose: (asset: Asset) => any;
-  onFocus: (asset: Asset) => any;
-};
+type TabViewProps = {};
 
 const TabsView: React.FC<TabViewProps> = (props) => {
-  const { assets, focused } = props;
+  const assets = useUIStore((state) => state.openAssets);
+  const focused = useUIStore((state) => state.focusedAsset);
+  const focus = useUIStore((state) => state.focusAsset);
+  const close = useUIStore((state) => state.closeAsset);
   return (
     <Wrapper>
       {!!assets.length ? (
         <Tabs
-          onUserFocus={(index, data) => props.onFocus(assets[index])}
-          onClose={(index, data) => props.onClose(assets[index])}
+          onUserFocus={(index, data) => focus(assets[index])}
+          onClose={(index, data) => close(assets[index])}
         >
           {assets.map((asset, index) => {
             return (

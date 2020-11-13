@@ -9,12 +9,16 @@ type State = {
 };
 const useAssetStore = create<State>((set) => ({
   assets: [],
+
+  // setup
   initialize: async () => {
     let assets = await client.getMany();
     set((state) => ({ assets }));
   },
+
+  // CRUD
   updateAsset: () => {},
-  createAsset: async (type: AssetType, parentId?: string) => {
+  createAsset: async (type, parentId) => {
     let asset = await client.create(type, parentId);
     set((state) => ({ assets: [...state.assets, asset] }));
     return asset;

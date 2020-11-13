@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 import { COLORS } from '../../config';
+import useAssetStore from '../../stores/useAssetStore';
+import useUIStore from '../../stores/useUIStore';
 import { Asset } from '../../types';
 import ExplorerReact from '../Explorer';
 import '../Explorer/styles.scss';
@@ -83,14 +85,12 @@ const ContextMenu = styled.div`
   padding: 12px 18px;
   background: grey;
 `;
-type ExplorerViewProps = {
-  items: Asset[];
-  focusedItem?: Asset;
-  onFocus: (item: Asset) => any;
-};
 
-const ExplorerView: React.FC<ExplorerViewProps> = (props) => {
-  const { items, focusedItem } = props;
+const ExplorerView: React.FC = (props) => {
+  const items = useAssetStore((state) => state.assets);
+  const focusedItem = useUIStore((state) => state.focusedAsset);
+  const focus = useUIStore((state) => state.focusAsset);
+
   const [contextMenuVisible, setContextMenuVisible] = useState(false);
 
   const virtualElementRef = useRef<any>(null);
@@ -153,7 +153,7 @@ const ExplorerView: React.FC<ExplorerViewProps> = (props) => {
         focusedId={focusedItem?.id}
         renameId='2.1'
         onUserFocus={(item) =>
-          item.payload?.type !== 'folder' && props.onFocus(item.payload!)
+          item.payload?.type !== 'folder' && focus(item.payload!)
         }
         onRightClick={handleRightClick}
         onRename={(item, value) => {

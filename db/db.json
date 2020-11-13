@@ -1,6 +1,23 @@
 {
   "worlds": [],
-  "flows": [],
+  "flows": [
+    {
+      "type": "flow",
+      "id": 1
+    },
+    {
+      "type": "flow",
+      "id": 2
+    },
+    {
+      "type": "flow",
+      "id": 3
+    },
+    {
+      "type": "flow",
+      "id": 4
+    }
+  ],
   "characters": [],
   "maps": [],
   "directories": [],
