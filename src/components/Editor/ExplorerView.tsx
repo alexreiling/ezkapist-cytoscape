@@ -42,7 +42,8 @@ const Wrapper = styled.div`
   }
 
   .item {
-    padding: 4px 8px;
+    padding-left: 8px;
+    align-items: center;
 
     &:hover {
       background-color: ${COLORS.background.shades[4]};
@@ -56,6 +57,20 @@ const Wrapper = styled.div`
     }
     &.folder.collapsed svg {
       transform: rotate(-90deg);
+    }
+    .label {
+      height: 22px;
+      line-height: 22px;
+    }
+    input {
+      border: 1px solid ${COLORS.foreground.active1};
+      outline: none;
+      color: ${COLORS.foreground.focused};
+      background: ${COLORS.background.shades[7]};
+      font-family: Montserrat;
+      font-size: 12px;
+      height: 22px;
+      flex: 1;
     }
   }
 `;
@@ -114,6 +129,16 @@ const ExplorerView: React.FC<ExplorerViewProps> = (props) => {
     document.addEventListener('click', closeContextMenu);
     e.preventDefault();
   };
+
+  const createAsset = () => {
+    // create remotely
+    //
+  };
+  const updateAsset = (asset: Asset) => {
+    // folder and assets
+  };
+  const deleteAsset = () => {};
+
   return (
     <Wrapper>
       <Header>EXPLORER</Header>
@@ -126,10 +151,14 @@ const ExplorerView: React.FC<ExplorerViewProps> = (props) => {
           forceParentFeatures: item.type === 'folder',
         }))}
         focusedId={focusedItem?.id}
+        renameId='2.1'
         onUserFocus={(item) =>
           item.payload?.type !== 'folder' && props.onFocus(item.payload!)
         }
         onRightClick={handleRightClick}
+        onRename={(item, value) => {
+          console.log(item, value);
+        }}
         createAssetPopover={<div>Hi</div>}
       />
       <ContextMenu

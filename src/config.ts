@@ -66,6 +66,7 @@ export const COLORS = {
       '#523718',
       '#70481E',
       '#7C5021',
+      '#645342',
     ],
   },
   foreground: {

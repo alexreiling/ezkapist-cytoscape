@@ -7,6 +7,7 @@ import { ExplorerOptions, Item, TreeNode } from './types';
 import { usePopper } from 'react-popper';
 import Header from './Header';
 import { findByLabelText } from '@testing-library/react';
+import { rename } from 'fs';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -38,6 +39,8 @@ export type ExplorerProps<T> = HTMLAttributes<HTMLDivElement> & {
   label?: string;
   items: Item<T>[];
   focusedId?: string;
+  renameId?: string;
+  onRename?: (item: Item<T>, value: string) => any;
   options?: ExplorerOptions;
   onUserFocus?: (item: Item<T>, e: React.MouseEvent) => any;
   onRightClick?: (item: Item<T>, e: React.MouseEvent) => any;
@@ -61,6 +64,7 @@ const ExplorerReact = <T,>(props: ExplorerProps<T>) => {
     items,
     label,
     focusedId,
+    renameId,
     className,
     options,
     onUserFocus,
@@ -92,8 +96,14 @@ const ExplorerReact = <T,>(props: ExplorerProps<T>) => {
   const handleRightClick = (node: TreeNode, e: React.MouseEvent) => {
     if (props.onRightClick) props.onRightClick(node.data, e);
   };
-
-  const root = buildTree(items, focusedId);
+  const handleRename = (node: TreeNode, value: string) => {
+    if (props.onRename) props.onRename(node.data, value);
+  };
+  console.log(focusedId);
+  const root = buildTree(items, {
+    focusedId,
+    renameId,
+  });
   return (
     <Wrapper className={className + ' react-explorer'}>
       <Header collapsed={collapsed} setCollapsed={setCollapsed} label={label} />
@@ -112,6 +122,7 @@ const ExplorerReact = <T,>(props: ExplorerProps<T>) => {
               options={config}
               onUserFocus={handleFocus}
               onRightClick={handleRightClick}
+              onRename={handleRename}
               key={index}
             />
           );

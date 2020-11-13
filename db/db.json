@@ -1,0 +1,52 @@
+{
+  "worlds": [],
+  "flows": [],
+  "characters": [],
+  "maps": [],
+  "directories": [],
+  "assets": [
+    {
+      "id": "1",
+      "label": "1",
+      "type": "folder"
+    },
+    {
+      "id": "1.1",
+      "label": "1.1",
+      "parentId": "1",
+      "type": "world"
+    },
+    {
+      "id": "1.2",
+      "label": "1.2",
+      "parentId": "1",
+      "type": "map"
+    },
+    {
+      "id": "2",
+      "label": "2",
+      "type": "folder"
+    },
+    {
+      "id": "2.1",
+      "label": "2.1",
+      "parentId": "2",
+      "type": "flow"
+    },
+    {
+      "id": "3",
+      "label": "3 (leere Gruppe)",
+      "type": "folder"
+    },
+    {
+      "id": "4",
+      "label": "4 (top-level file)",
+      "type": "character"
+    },
+    {
+      "id": "5",
+      "label": "5 (missing parent)",
+      "parentId": "x"
+    }
+  ]
+}

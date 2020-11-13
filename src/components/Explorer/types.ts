@@ -15,6 +15,7 @@ export interface Item<T = any> {
 // internal (tree) structures
 export interface TreeNode {
   parent?: TreeNode;
+  asInput?: boolean;
   focused?: boolean;
   children: TreeNode[];
   data: Item;

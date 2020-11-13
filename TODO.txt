@@ -1,3 +1,9 @@
+NEXT:
+- AssetsContext
+- 
+
+
+
 interface for nodes:
 
 on init cytoscape:

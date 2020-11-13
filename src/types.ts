@@ -26,9 +26,10 @@ interface Folder {
   id: string;
   name?: string;
 }
+export type AssetType = 'world' | 'map' | 'character' | 'flow' | 'folder';
 export interface Asset {
   id: string;
   label?: string;
   parentId?: string;
-  type?: 'world' | 'map' | 'character' | 'flow' | 'folder';
+  type?: AssetType;
 }
