@@ -1,3 +1,5 @@
+import AssetExplorer from './components/AssetExplorer';
+
 // NodeMap
 export interface XY {
   x: number;
@@ -27,9 +29,13 @@ interface Folder {
   name?: string;
 }
 export type AssetType = 'world' | 'map' | 'character' | 'flow' | 'folder';
+
 export interface Asset {
   id: string;
   label?: string;
   parentId?: string;
-  type?: AssetType;
+  type: AssetType;
+}
+export interface TempAsset extends Partial<Omit<Asset, 'id'>> {
+  type: AssetType;
 }

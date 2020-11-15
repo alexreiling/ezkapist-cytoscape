@@ -19,7 +19,7 @@
     "mainloop.js": "^1.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-popper": "^2.2.3",
+    "react-popper": "^2.2.4",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
     "resonance-audio": "^1.0.0",

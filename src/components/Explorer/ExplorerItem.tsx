@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { HTMLAttributes, useState } from 'react';
+import React, { HTMLAttributes, useEffect, useState } from 'react';
 import { ExplorerOptions, TreeNode } from './types';
 type ExplorerItemProps = HTMLAttributes<HTMLDivElement> & {
   node: TreeNode;
@@ -9,13 +9,21 @@ type ExplorerItemProps = HTMLAttributes<HTMLDivElement> & {
   // handlers
   onUserFocus: (node: TreeNode, e: React.MouseEvent) => any;
   onRightClick: (node: TreeNode, e: React.MouseEvent) => any;
-  onRename: (node: TreeNode, value: string) => any;
+  onRename: (node: TreeNode, value: string, cancel?: boolean) => any;
 };
 
 const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
   const { node, level, options, onUserFocus, onRightClick, onRename } = props;
+
+  const open = node.children.some((child) => child.asInput);
+
   const [tempName, setTempName] = useState(node.data.label || '');
   const [isCollapsed, setIsCollapsed] = useState(true);
+
+  useEffect(() => {
+    if (open) setIsCollapsed(!open);
+  }, [open]);
+
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (node.data.forceParentFeatures || node.children.length) {
@@ -24,9 +32,9 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
     }
     onUserFocus(node, e);
   };
-  const handleRename = () => {
+  const handleRename = (cancel?: boolean) => {
     console.log('rename', tempName);
-    onRename(node, tempName);
+    onRename(node, tempName, cancel);
   };
   const indentation = level * options.indentation + 'px';
   const value = node.data.label || 'Unnamed';
@@ -44,7 +52,10 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
           ...(node.data.classNames || [])
         )}
         onClick={handleClick}
-        onContextMenu={(e) => onRightClick(node, e)}
+        onContextMenu={(e) => {
+          e.stopPropagation();
+          onRightClick(node, e);
+        }}
         style={{}}
       >
         <div
@@ -61,10 +72,14 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
             <div className='label'>{value}</div>
           ) : (
             <input
+              autoFocus
               value={tempName}
               onChange={(e) => setTempName(e.target.value)}
-              onBlur={handleRename}
-              onKeyDown={(e) => e.key === 'Enter' && handleRename()}
+              onBlur={() => handleRename()}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleRename();
+                else if (e.key === 'Escape') handleRename(true);
+              }}
             />
           )}
         </div>

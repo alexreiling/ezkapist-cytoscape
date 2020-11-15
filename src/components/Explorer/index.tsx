@@ -40,10 +40,10 @@ export type ExplorerProps<T> = HTMLAttributes<HTMLDivElement> & {
   items: Item<T>[];
   focusedId?: string;
   renameId?: string;
-  onRename?: (item: Item<T>, value: string) => any;
+  onRename?: (item: Item<T>, value: string, cancel?: boolean) => any;
   options?: ExplorerOptions;
   onUserFocus?: (item: Item<T>, e: React.MouseEvent) => any;
-  onRightClick?: (item: Item<T>, e: React.MouseEvent) => any;
+  onRightClick?: (item: Item<T> | undefined, e: React.MouseEvent) => any;
   createAssetPopover?: React.ReactElement;
   // onSelect?: (
   //   node: TreeNode<ExplorerItemModel<T>>,
@@ -93,11 +93,14 @@ const ExplorerReact = <T,>(props: ExplorerProps<T>) => {
   const handleFocus = (node: TreeNode, e: React.MouseEvent) => {
     if (props.onUserFocus) props.onUserFocus(node.data, e);
   };
-  const handleRightClick = (node: TreeNode, e: React.MouseEvent) => {
-    if (props.onRightClick) props.onRightClick(node.data, e);
+  const handleRightClick = (
+    node: TreeNode | undefined,
+    e: React.MouseEvent
+  ) => {
+    if (props.onRightClick) props.onRightClick(node?.data, e);
   };
-  const handleRename = (node: TreeNode, value: string) => {
-    if (props.onRename) props.onRename(node.data, value);
+  const handleRename = (node: TreeNode, value: string, cancel?: boolean) => {
+    if (props.onRename) props.onRename(node.data, value, cancel);
   };
   console.log(focusedId);
   const root = buildTree(items, {
@@ -105,7 +108,10 @@ const ExplorerReact = <T,>(props: ExplorerProps<T>) => {
     renameId,
   });
   return (
-    <Wrapper className={className + ' react-explorer'}>
+    <Wrapper
+      className={className + ' react-explorer'}
+      onContextMenu={(e) => handleRightClick(undefined, e)}
+    >
       <Header collapsed={collapsed} setCollapsed={setCollapsed} label={label} />
       <div
         className={'list' + (collapsed ? ' collapsed' : '')}

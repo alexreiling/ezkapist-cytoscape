@@ -3,24 +3,46 @@
   "flows": [
     {
       "type": "flow",
-      "id": 1
+      "id": 1,
+      "label": "flow.json"
     },
     {
       "type": "flow",
-      "id": 2
+      "id": 2,
+      "label": "test.jsonasdas"
     },
     {
       "type": "flow",
-      "id": 3
+      "id": 3,
+      "label": "asdjaslkdnl.jsonasdas"
     },
     {
       "type": "flow",
-      "id": 4
+      "id": 4,
+      "label": "asdlaskdmaöslkdmaösdasdas"
     }
   ],
   "characters": [],
   "maps": [],
-  "directories": [],
+  "directories": [
+    {
+      "type": "folder",
+      "label": "test",
+      "id": 1
+    },
+    {
+      "type": "folder",
+      "parentId": 1,
+      "label": "asdasd",
+      "id": 2
+    },
+    {
+      "type": "folder",
+      "parentId": 1,
+      "label": "asdasd",
+      "id": 3
+    }
+  ],
   "assets": [
     {
       "id": "1",

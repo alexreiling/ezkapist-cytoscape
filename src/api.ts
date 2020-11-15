@@ -1,4 +1,5 @@
-import { Asset, AssetType } from './types';
+import { end } from '@popperjs/core';
+import { Asset, AssetType, TempAsset } from './types';
 const BASE_URL = 'http://localhost:3001/';
 const ENDPOINTS: any = {
   world: 'worlds',
@@ -22,7 +23,12 @@ const request = async (endpoint: string, method?: string, data?: any) => {
 const requestJSON = async (endpoint: string, method?: string, data?: any) =>
   request(endpoint, method, data).then((res) => res.json());
 
-const update = (asset: Asset) => {};
+const update = (updatedAsset: Asset) => {
+  const type = updatedAsset.type!;
+  const endpoint = ENDPOINTS[type];
+  if (!endpoint) throw new Error('No endpoint found for type: ' + type);
+  return requestJSON(endpoint + '/' + updatedAsset.id, 'PUT', updatedAsset);
+};
 const getMany = async (type?: AssetType) => {
   if (!type) {
     // get all assets
@@ -37,18 +43,22 @@ const getMany = async (type?: AssetType) => {
   }
 };
 const getOne = () => {};
-const remove = () => {};
-const create = async (type: AssetType, parentId?: string): Promise<Asset> => {
+const remove = (asset: Asset) => {
+  const type = asset.type;
   const endpoint = ENDPOINTS[type];
   if (!endpoint) throw new Error('No endpoint found for type: ' + type);
-  const data: Partial<Asset> = {
-    type,
-    parentId,
-  };
-  return requestJSON(endpoint, 'POST', data);
+  return requestJSON(endpoint + '/' + asset.id, 'DELETE');
+};
+const create = async (tempAsset: TempAsset): Promise<Asset> => {
+  const type = tempAsset.type;
+  const endpoint = ENDPOINTS[type];
+  if (!endpoint) throw new Error('No endpoint found for type: ' + type);
+  return requestJSON(endpoint, 'POST', tempAsset);
 };
 const client = {
   create,
+  update,
+  remove,
   getMany,
 };
 export default client;
