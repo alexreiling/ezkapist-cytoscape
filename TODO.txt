@@ -1,9 +1,7 @@
 NEXT:
-- Backend:
- - id generation
- - remove children on removal
 - move asset from folder to folder (dnd)
 - create file
+- json editor toggle 
 
 
 

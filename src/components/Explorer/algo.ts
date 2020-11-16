@@ -3,6 +3,11 @@ const addChild = (parent: TreeNode, child: TreeNode) => {
   child.parent = parent;
   parent.children.push(child);
 };
+const openParent = (node?: TreeNode) => {
+  if (!node) return;
+  openParent(node.parent);
+  node.collapsed = false;
+};
 export const buildTree = (
   items: Item[],
   state: {
@@ -10,9 +15,12 @@ export const buildTree = (
     renameId?: string;
   }
 ): TreeNode => {
+  let focusedNode: TreeNode | undefined;
+  let inputNode: TreeNode | undefined;
   const root: TreeNode = {
     children: [],
     data: {},
+    collapsed: true,
   };
   const seenNodes: {
     [key: string]: TreeNode;
@@ -25,9 +33,11 @@ export const buildTree = (
     let node: TreeNode = {
       children,
       data: item,
-      focused: !!state.focusedId && state.focusedId === item.id,
-      asInput: !!state.renameId && state.renameId === item.id,
+
+      collapsed: true,
     };
+    if (!!state.focusedId && state.focusedId === item.id) focusedNode = node;
+    if (!!state.renameId && state.renameId === item.id) inputNode = node;
     children.forEach((child) => (child.parent = node));
 
     if (!item.parentId) {
@@ -44,6 +54,13 @@ export const buildTree = (
     }
     if (item.id) seenNodes[item.id] = node;
   });
-
+  if (focusedNode) {
+    focusedNode.focused = true;
+    openParent(focusedNode.parent);
+  }
+  if (inputNode) {
+    inputNode.asInput = true;
+    openParent(inputNode.parent);
+  }
   return root;
 };

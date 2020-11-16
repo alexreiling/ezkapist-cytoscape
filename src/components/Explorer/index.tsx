@@ -4,37 +4,13 @@ import styled, { css } from 'styled-components';
 import { Icons } from './Icons';
 import { buildTree } from './algo';
 import { ExplorerOptions, Item, TreeNode } from './types';
-import { usePopper } from 'react-popper';
 import Header from './Header';
-import { findByLabelText } from '@testing-library/react';
-import { rename } from 'fs';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   overflow: auto;
 `;
 
-const Label = styled.div`
-  flex: 1;
-`;
-const Toolbar = styled.div`
-  margin-left: auto;
-`;
-const AddFileIcon = styled(Icons.AddFile)`
-  height: 100%;
-  width: 24px;
-  stroke: white;
-  fill: white;
-  padding: 2px;
-`;
-const Popper = styled.div<{ visible?: boolean }>`
-  display: none;
-  ${(p) =>
-    p.visible &&
-    css`
-      display: block;
-    `}
-`;
 export type ExplorerProps<T> = HTMLAttributes<HTMLDivElement> & {
   label?: string;
   items: Item<T>[];
@@ -44,6 +20,7 @@ export type ExplorerProps<T> = HTMLAttributes<HTMLDivElement> & {
   options?: ExplorerOptions;
   onUserFocus?: (item: Item<T>, e: React.MouseEvent) => any;
   onRightClick?: (item: Item<T> | undefined, e: React.MouseEvent) => any;
+  onParentChange?: (item: Item<T>, parent?: Item<T>) => any;
   createAssetPopover?: React.ReactElement;
   // onSelect?: (
   //   node: TreeNode<ExplorerItemModel<T>>,
@@ -60,33 +37,11 @@ export type ExplorerProps<T> = HTMLAttributes<HTMLDivElement> & {
 };
 
 const ExplorerReact = <T,>(props: ExplorerProps<T>) => {
-  const {
-    items,
-    label,
-    focusedId,
-    renameId,
-    className,
-    options,
-    onUserFocus,
-    onRightClick,
-    createAssetPopover,
-  } = props;
+  const { items, label, focusedId, renameId, className, options } = props;
 
   const [collapsed, setCollapsed] = useState(false);
+  const [draggedNode, setDraggedNode] = useState<TreeNode | undefined>();
 
-  // Popper
-  // const [popperVisible, setPopperVisible] = useState(false);
-  const referenceElementRef = useRef<any>(null);
-  const popperElementRef = useRef<any>(null);
-  // const [arrowElement, setArrowElement] = useState<any>(null);
-
-  // const { styles, attributes } = usePopper(
-  //   referenceElementRef.current,
-  //   popperElementRef.current,
-  //   {
-  //     // modifiers: [{ name: 'arrow', options: { element: arrowElement } }],
-  //   }
-  // );
   const config: ExplorerOptions = { indentation: 8, ...options };
 
   // handlers
@@ -102,7 +57,13 @@ const ExplorerReact = <T,>(props: ExplorerProps<T>) => {
   const handleRename = (node: TreeNode, value: string, cancel?: boolean) => {
     if (props.onRename) props.onRename(node.data, value, cancel);
   };
-  console.log(focusedId);
+  const handleDrop = (node?: TreeNode) => {
+    if (!draggedNode || draggedNode.data.id === node?.data.id) return;
+    if (props.onParentChange)
+      props.onParentChange(draggedNode?.data, node?.data);
+  };
+
+  // view
   const root = buildTree(items, {
     focusedId,
     renameId,
@@ -111,6 +72,11 @@ const ExplorerReact = <T,>(props: ExplorerProps<T>) => {
     <Wrapper
       className={className + ' react-explorer'}
       onContextMenu={(e) => handleRightClick(undefined, e)}
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={(e) => {
+        e.preventDefault();
+        handleDrop();
+      }}
     >
       <Header collapsed={collapsed} setCollapsed={setCollapsed} label={label} />
       <div
@@ -127,6 +93,8 @@ const ExplorerReact = <T,>(props: ExplorerProps<T>) => {
           onUserFocus={handleFocus}
           onRightClick={handleRightClick}
           onRename={handleRename}
+          onUserDrag={(node) => setDraggedNode(node)}
+          onUserDrop={handleDrop}
         />
       </div>
     </Wrapper>

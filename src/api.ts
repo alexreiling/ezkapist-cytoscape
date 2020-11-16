@@ -39,7 +39,7 @@ const getMany = async (type?: AssetType) => {
         return request(endpoint).then((res) => res.json());
       })
     );
-    return allData.flat();
+    return allData.flat() as Asset[];
   }
 };
 const getOne = () => {};

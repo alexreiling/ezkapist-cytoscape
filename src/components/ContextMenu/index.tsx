@@ -1,8 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
-import { COLORS } from '../../../config';
-import { generateGetBoundingClientRect } from '../../util/generateGetBoundingClientRect';
+import { COLORS } from '../../config';
 
 const Wrapper = styled.div`
   /* Auto Layout */

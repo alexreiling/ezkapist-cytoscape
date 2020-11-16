@@ -12,19 +12,30 @@ type ExplorerItemProps = HTMLAttributes<HTMLDivElement> & {
   onUserFocus: (node: TreeNode, e: React.MouseEvent) => any;
   onRightClick: (node: TreeNode, e: React.MouseEvent) => any;
   onRename: (node: TreeNode, value: string, cancel?: boolean) => any;
+  onUserDrag: (node: TreeNode, e: React.DragEvent) => any;
+  onUserDrop: (node: TreeNode, e: React.DragEvent) => any;
 };
 
 const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
-  const { node, level, options, onUserFocus, onRightClick, onRename } = props;
+  const {
+    node,
+    level,
+    options,
+    onUserFocus,
+    onRightClick,
+    onRename,
+    onUserDrag,
+    onUserDrop,
+  } = props;
 
-  const open = node.children.some((child) => child.asInput);
+  // const open = node.children.some((child) => child.asInput || child.focused);
 
   const [tempName, setTempName] = useState(node.data.label || '');
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(node.collapsed);
 
   useEffect(() => {
-    if (open) setIsCollapsed(!open);
-  }, [open]);
+    if (!node.collapsed) setIsCollapsed(false);
+  }, [node.collapsed]);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -38,6 +49,12 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
     console.log('rename', tempName);
     onRename(node, tempName, cancel);
   };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onUserDrop(node, e);
+  };
   const indentation = level * options.indentation + 'px';
   const value = node.data.label || 'Unnamed';
 
@@ -47,12 +64,10 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
   ]).map((child, index) => {
     return (
       <ExplorerItem
+        {...props}
         node={child}
         level={level + 1}
         options={options}
-        onUserFocus={onUserFocus}
-        onRightClick={onRightClick}
-        onRename={onRename}
         key={index}
       />
     );
@@ -62,6 +77,10 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
   return (
     <>
       <div
+        draggable
+        onDragStart={(e) => onUserDrag(node, e)}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={handleDrop}
         className={clsx(
           'item',
           {

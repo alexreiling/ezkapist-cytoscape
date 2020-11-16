@@ -3,7 +3,6 @@ import client from '../api';
 import { Asset, AssetType, TempAsset } from '../types';
 
 export const TEMP_ID = '_temp_';
-
 type State = {
   assets: Asset[];
   initialize: () => any;
@@ -18,7 +17,7 @@ const useAssetStore = create<State>((set) => ({
   // setup
   initialize: async () => {
     let assets = await client.getMany();
-    set((state) => ({ assets }));
+    set(() => ({ assets }));
   },
 
   // CRUD
@@ -29,6 +28,7 @@ const useAssetStore = create<State>((set) => ({
         asset.id === remoteAsset.id ? remoteAsset : asset
       ),
     }));
+
     return remoteAsset;
   },
   createAsset: async (atLeastType: TempAsset) => {
@@ -43,7 +43,9 @@ const useAssetStore = create<State>((set) => ({
   },
   removeAsset: async (asset: Asset) => {
     await client.remove(asset);
-    set((state) => ({ assets: state.assets.filter((a) => a.id !== asset.id) }));
+    set((state) => ({
+      assets: state.assets.filter((a) => a.id !== asset.id),
+    }));
     return;
   },
 }));

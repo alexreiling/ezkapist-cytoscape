@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { COLORS } from '../../config';
 import useUIStore from '../../stores/useUIStore';
+import useAssetStore from '../../stores/useAssetStore';
+
 import { Asset } from '../../types';
 import Tabs, { Tab } from '../Tabs';
 import '../Tabs/styles.scss';
@@ -65,6 +67,12 @@ const TabsView: React.FC<TabViewProps> = (props) => {
   const focused = useUIStore((state) => state.focusedAsset);
   const focus = useUIStore((state) => state.focusAsset);
   const close = useUIStore((state) => state.closeAsset);
+
+  const focusedId = useRef<string>();
+
+  if (focused && focused.type !== 'folder') focusedId.current = focused.id;
+  console.log('rendering');
+
   return (
     <Wrapper>
       {!!assets.length ? (
@@ -75,8 +83,8 @@ const TabsView: React.FC<TabViewProps> = (props) => {
           {assets.map((asset, index) => {
             return (
               <Tab
-                title={asset.id}
-                focused={asset.id === focused?.id}
+                title={asset.label || 'Unnamed'}
+                focused={asset.id === focusedId.current}
                 key={index}
               >
                 <TestViewWithState />

@@ -19,6 +19,7 @@ export interface TreeNode {
   focused?: boolean;
   children: TreeNode[];
   data: Item;
+  collapsed: boolean;
 }
 
 // options

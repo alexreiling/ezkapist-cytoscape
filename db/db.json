@@ -3,7 +3,7 @@
     {
       "type": "world",
       "parentId": "deSA37uhR",
-      "label": "aworld1",
+      "label": "aworld1test.json",
       "folderId": "deSA37uhR",
       "id": "someId"
     }
@@ -11,23 +11,17 @@
   "flows": [
     {
       "type": "flow",
-      "id": 1,
-      "label": "flow.json"
-    },
-    {
-      "type": "flow",
       "id": 2,
-      "label": "test.jsonasdas"
-    },
-    {
-      "type": "flow",
-      "id": 3,
-      "label": "asdjaslkdnl.jsonasdas"
+      "label": "test.jsonasodjkasea",
+      "parentId": "sGto9nJvO",
+      "folderId": "sGto9nJvO"
     },
     {
       "type": "flow",
       "id": 4,
-      "label": "asdl"
+      "label": "asdl",
+      "parentId": "deSA37uhR",
+      "folderId": "deSA37uhR"
     }
   ],
   "characters": [],
@@ -40,10 +34,10 @@
     },
     {
       "type": "folder",
-      "parentId": "deSA37uhR",
       "label": "child1",
-      "folderId": "deSA37uhR",
-      "id": "s1JSG27_j"
+      "id": "s1JSG27_j",
+      "parentId": "deSA37uhR",
+      "folderId": "deSA37uhR"
     },
     {
       "type": "folder",
@@ -58,6 +52,13 @@
       "label": "child3withinchild2",
       "folderId": "EaqLE6POb",
       "id": "sGto9nJvO"
+    },
+    {
+      "type": "folder",
+      "parentId": "EaqLE6POb",
+      "label": "test.json",
+      "folderId": "EaqLE6POb",
+      "id": "EO00055Dk"
     }
   ],
   "assets": [

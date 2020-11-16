@@ -10,8 +10,8 @@ import '../../Explorer/styles.scss';
 
 import { Item } from '../../Explorer/types';
 import { assetIcons } from '../Icons';
-import ContextMenu, { ContextMenuProps } from './ContextMenu';
-
+import ContextMenu, { ContextMenuProps } from '../../ContextMenu';
+import ExplorerContextMenu from './ExplorerContextMenu';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -110,7 +110,6 @@ const ExplorerView: React.FC = (props) => {
     e: React.MouseEvent
   ) => {
     e.preventDefault();
-
     rightClickItem(item?.payload);
     setContextMenu({ pos: { x: e.clientX, y: e.clientY } });
   };
@@ -138,33 +137,34 @@ const ExplorerView: React.FC = (props) => {
     setTempItem(tempItem);
     setRenameItem(tempItem);
   };
-  const ContextMenuContent = (
-    <>
-      {(!rightClickedItem || rightClickedItem.type === 'folder') && (
-        <>
-          <div onClick={() => createTempItem('folder', rightClickedItem?.id)}>
-            New Folder
-          </div>
-          <hr />
-        </>
-      )}
-      <div
-        onClick={() => {
-          setRenameItem(rightClickedItem);
-        }}
-      >
-        Rename
-      </div>
-      <div
-        onClick={() => {
-          remove(rightClickedItem!);
-        }}
-      >
-        Delete
-      </div>
-    </>
-  );
+  const handleParentChange = async (
+    item: Item<Asset>,
+    parent?: Item<Asset>
+  ) => {
+    console.log(parent);
+
+    if (parent && parent.payload?.type !== 'folder') return;
+    if (
+      !window.confirm(
+        `Are you sure you want to move ${item.label} into ${
+          parent?.label || 'root'
+        }?`
+      )
+    )
+      return;
+    const asset = item.payload!;
+    asset.parentId = parent?.id;
+    let remote = await update(asset);
+    focus(remote);
+  };
+  const handleRemove = async (asset: Asset) => {
+    if (!window.confirm(`Are you sure you want to remove ${asset.label}?`))
+      return;
+    await remove(asset);
+  };
   if (tempItem) items = items.concat(tempItem);
+  console.log('rendering explorer');
+
   return (
     <Wrapper>
       <Header>EXPLORER</Header>
@@ -181,6 +181,7 @@ const ExplorerView: React.FC = (props) => {
         onUserFocus={(item) => focus(item.payload!)}
         onRightClick={handleRightClick}
         onRename={handleRename}
+        onParentChange={handleParentChange}
         createAssetPopover={<div>Hi</div>}
       />
       <ContextMenu
@@ -188,8 +189,12 @@ const ExplorerView: React.FC = (props) => {
         hide={!contextMenu}
         onDestroy={() => setContextMenu(undefined)}
       >
-        {ContextMenuContent}
-        {/* <ContextMenuContent /> */}
+        <ExplorerContextMenu
+          item={rightClickedItem}
+          onCreate={createTempItem}
+          onStartRename={(item) => setRenameItem(item)}
+          onDelete={handleRemove}
+        />
       </ContextMenu>
     </Wrapper>
   );
