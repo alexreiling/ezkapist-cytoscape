@@ -5,7 +5,7 @@ const ENDPOINTS: any = {
   world: 'worlds',
   map: 'maps',
   flow: 'flows',
-  folder: 'directories',
+  folder: 'folders',
   character: 'characters',
 };
 
@@ -43,12 +43,37 @@ const getMany = async (type?: AssetType) => {
   }
 };
 const getOne = () => {};
-const remove = (asset: Asset) => {
+const remove = async (asset: Asset) => {
   const type = asset.type;
+  if (type === 'folder') {
+    // get child folders
+    let childFolders: Asset[] = await requestJSON(
+      ENDPOINTS.folder + '/' + asset.id + '/' + ENDPOINTS.folder
+    );
+    // delete child folders
+    await Promise.all(childFolders.map((childFolder) => remove(childFolder)));
+    // // delete ressources
+    // Object.keys(ENDPOINTS)
+    //   .filter((key) => key !== 'folder')
+    //   .forEach((key) => {
+    //     const ressourceEndpoint = ENDPOINTS[key];
+    //     requestJSON(
+    //       ENDPOINTS.folder + '/' + asset.id + '/' + ressourceEndpoint,
+    //       'DELETE'
+    //     );
+    //   });
+  }
+  // delete self
   const endpoint = ENDPOINTS[type];
-  if (!endpoint) throw new Error('No endpoint found for type: ' + type);
   return requestJSON(endpoint + '/' + asset.id, 'DELETE');
 };
+// const remove = (asset: Asset) => {
+//   const type = asset.type;
+//   const endpoint = ENDPOINTS[type];
+//   if (!endpoint) throw new Error('No endpoint found for type: ' + type);
+
+//   return requestJSON(endpoint + '/' + asset.id, 'DELETE');
+// };
 const create = async (tempAsset: TempAsset): Promise<Asset> => {
   const type = tempAsset.type;
   const endpoint = ENDPOINTS[type];

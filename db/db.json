@@ -1,5 +1,13 @@
 {
-  "worlds": [],
+  "worlds": [
+    {
+      "type": "world",
+      "parentId": "deSA37uhR",
+      "label": "world1",
+      "folderId": "deSA37uhR",
+      "id": "someId"
+    }
+  ],
   "flows": [
     {
       "type": "flow",
@@ -19,58 +27,49 @@
     {
       "type": "flow",
       "id": 4,
-      "label": "asdlaskdmaöslkdmaösdasdas"
+      "label": "asdl"
     }
   ],
   "characters": [],
   "maps": [],
-  "directories": [
+  "folders": [
     {
       "type": "folder",
-      "label": "test",
-      "id": 1
+      "label": "parent",
+      "id": "deSA37uhR"
     },
     {
       "type": "folder",
-      "parentId": 1,
-      "label": "asdasd",
-      "id": 2
+      "parentId": "deSA37uhR",
+      "label": "child1",
+      "folderId": "deSA37uhR",
+      "id": "s1JSG27_j"
     },
     {
       "type": "folder",
-      "parentId": 1,
-      "label": "asdasd",
-      "id": 3
+      "parentId": "deSA37uhR",
+      "label": "child2",
+      "folderId": "deSA37uhR",
+      "id": "EaqLE6POb"
+    },
+    {
+      "type": "folder",
+      "parentId": "EaqLE6POb",
+      "label": "child3withinchild2",
+      "folderId": "EaqLE6POb",
+      "id": "sGto9nJvO"
     }
   ],
   "assets": [
     {
       "id": "1",
-      "label": "1",
+      "label": "15",
       "type": "folder"
-    },
-    {
-      "id": "1.1",
-      "label": "1.1",
-      "parentId": "1",
-      "type": "world"
-    },
-    {
-      "id": "1.2",
-      "label": "1.2",
-      "parentId": "1",
-      "type": "map"
     },
     {
       "id": "2",
       "label": "2",
       "type": "folder"
-    },
-    {
-      "id": "2.1",
-      "label": "2.1",
-      "parentId": "2",
-      "type": "flow"
     },
     {
       "id": "3",
@@ -81,11 +80,6 @@
       "id": "4",
       "label": "4 (top-level file)",
       "type": "character"
-    },
-    {
-      "id": "5",
-      "label": "5 (missing parent)",
-      "parentId": "x"
     }
   ]
 }
