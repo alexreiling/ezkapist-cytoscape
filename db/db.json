@@ -3,7 +3,7 @@
     {
       "type": "world",
       "parentId": "deSA37uhR",
-      "label": "world1",
+      "label": "aworld1",
       "folderId": "deSA37uhR",
       "id": "someId"
     }
@@ -48,7 +48,7 @@
     {
       "type": "folder",
       "parentId": "deSA37uhR",
-      "label": "child2",
+      "label": "child0",
       "folderId": "deSA37uhR",
       "id": "EaqLE6POb"
     },

@@ -120,19 +120,14 @@ const ExplorerReact = <T,>(props: ExplorerProps<T>) => {
           height: '100%',
         }}
       >
-        {root.children.map((child, index) => {
-          return (
-            <ExplorerItem
-              node={child}
-              level={1}
-              options={config}
-              onUserFocus={handleFocus}
-              onRightClick={handleRightClick}
-              onRename={handleRename}
-              key={index}
-            />
-          );
-        })}
+        <ExplorerItem
+          node={root}
+          level={0}
+          options={config}
+          onUserFocus={handleFocus}
+          onRightClick={handleRightClick}
+          onRename={handleRename}
+        />
       </div>
     </Wrapper>
   );

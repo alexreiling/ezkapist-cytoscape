@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import React, { HTMLAttributes, useEffect, useState } from 'react';
 import { ExplorerOptions, TreeNode } from './types';
+import _ from 'lodash';
+
 type ExplorerItemProps = HTMLAttributes<HTMLDivElement> & {
   node: TreeNode;
   level: number;
@@ -39,6 +41,24 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
   const indentation = level * options.indentation + 'px';
   const value = node.data.label || 'Unnamed';
 
+  let children = _.orderBy(node.children, [
+    (item) => (!!item.data.forceParentFeatures ? -1 : 1),
+    'data.label',
+  ]).map((child, index) => {
+    return (
+      <ExplorerItem
+        node={child}
+        level={level + 1}
+        options={options}
+        onUserFocus={onUserFocus}
+        onRightClick={onRightClick}
+        onRename={onRename}
+        key={index}
+      />
+    );
+  });
+
+  if (!node.parent) return <>{children}</>;
   return (
     <>
       <div
@@ -84,20 +104,7 @@ const ExplorerItem: React.FC<ExplorerItemProps> = (props) => {
           )}
         </div>
       </div>
-      {!isCollapsed &&
-        node.children.map((child, index) => {
-          return (
-            <ExplorerItem
-              node={child}
-              level={level + 1}
-              options={options}
-              onUserFocus={onUserFocus}
-              onRightClick={onRightClick}
-              onRename={onRename}
-              key={index}
-            />
-          );
-        })}
+      {!isCollapsed && children}
     </>
   );
 };

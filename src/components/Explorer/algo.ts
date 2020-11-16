@@ -22,13 +22,14 @@ export const buildTree = (
   } = {};
   items.forEach((item) => {
     const children = (item.id && orphansByParentId[item.id]) || [];
-
     let node: TreeNode = {
       children,
       data: item,
       focused: !!state.focusedId && state.focusedId === item.id,
       asInput: !!state.renameId && state.renameId === item.id,
     };
+    children.forEach((child) => (child.parent = node));
+
     if (!item.parentId) {
       addChild(root, node);
     } else {
@@ -43,5 +44,6 @@ export const buildTree = (
     }
     if (item.id) seenNodes[item.id] = node;
   });
+
   return root;
 };
